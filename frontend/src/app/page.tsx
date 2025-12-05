@@ -3,14 +3,14 @@ import Link from "next/link";
 import { Button } from "@/shared/shadcn/ui/button";
 
 export const metadata: Metadata = {
-  title: "Главная",
-  description: "Центр Инвеста - управление финансами",
+  title: "История транзакций",
+  description: "Просмотр всех транзакций",
 };
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-8">
-      <main className="flex w-full max-w-4xl flex-col gap-8">
+    <div className="flex min-h-screen flex-col items-center p-8">
+      <main className="flex w-full max-w-6xl flex-col gap-8">
         <div className="flex flex-col gap-4">
           <h1 className="text-4xl font-bold">Центр Инвеста</h1>
           <p className="text-lg text-muted-foreground">
