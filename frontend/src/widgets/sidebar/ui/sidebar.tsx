@@ -13,13 +13,8 @@ import {
 
 const items = [
   {
-    title: "Главная",
-    url: "/",
-    icon: Home,
-  },
-  {
     title: "Аналитика",
-    url: "/analytics",
+    url: "/",
     icon: ChartPie,
   },
   {

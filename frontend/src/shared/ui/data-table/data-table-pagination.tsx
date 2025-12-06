@@ -19,10 +19,6 @@ export function DataTablePagination<TData>({
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
-      <div className="text-muted-foreground flex-1 text-sm">
-        {table.getFilteredSelectedRowModel().rows.length} из{" "}
-        {table.getFilteredRowModel().rows.length} строк выбрано.
-      </div>
       <div className="flex items-center gap-6 lg:gap-8">
         <div className="flex items-center justify-center text-sm font-medium">
           Страница {table.getState().pagination.pageIndex + 1} из{" "}

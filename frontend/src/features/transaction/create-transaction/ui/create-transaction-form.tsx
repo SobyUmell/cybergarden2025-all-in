@@ -59,14 +59,18 @@ export const CreateTransactionForm = () => {
             name="amount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Сумма</FormLabel>
+                <FormLabel>Сумма (RUB)</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
                     placeholder="0.00"
                     step="0.01"
-                    {...field}
-                    onChange={(e) => field.onChange(parseFloat(e.target.value) || 0)}
+                    min="0"
+                    value={field.value || ""}
+                    onChange={(e) => {
+                      const value = e.target.value
+                      field.onChange(value === "" ? 0 : parseFloat(value))
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -102,7 +106,7 @@ export const CreateTransactionForm = () => {
             )}
           />
         </div>
-        <Button type="submit" className="w-fit" disabled={isLoading}>
+        <Button type="submit" className="w-fit mt-2" disabled={isLoading}>
           {isLoading ? "Создание..." : "Создать транзакцию"}
         </Button>
       </form>

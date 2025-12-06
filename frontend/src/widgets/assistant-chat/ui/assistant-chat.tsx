@@ -71,12 +71,12 @@ export const AssistantChat = () => {
   }, [messages])
 
   return (
-    <div className="flex-1 flex flex-col border rounded-lg bg-card">
+    <div className="flex-1 flex flex-col h-[calc(100vh-12rem)] border rounded-lg bg-card">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message) => (
           <div
             key={message.id}
-            className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"
+            className={`flex gap-1 sm:gap-3 ${message.role === "user" ? "justify-end" : "justify-start"
               }`}
           >
             {message.role === "assistant" && (
@@ -85,7 +85,7 @@ export const AssistantChat = () => {
               </div>
             )}
             <div
-              className={`max-w-[70%] rounded-lg p-3 ${message.role === "user"
+              className={`sm:max-w-[70%] rounded-lg p-3 ${message.role === "user"
                 ? "bg-main-accent text-primary-foreground"
                 : "bg-muted"
                 }`}

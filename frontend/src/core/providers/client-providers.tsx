@@ -14,7 +14,7 @@ export const ClientProviders = ({
       <QueryClientProvider client={queryClient}>
         <SidebarProvider>
           <AppSidebar />
-          <SidebarTrigger />
+          <SidebarTrigger className="hidden sm:flex" />
           {children}
         </SidebarProvider>
       </QueryClientProvider>
