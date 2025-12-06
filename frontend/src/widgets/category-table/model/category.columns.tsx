@@ -1,5 +1,17 @@
+"use client"
+
 import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { DataTableColumnHeader } from "@/shared/ui/data-table/data-table-column-header";
+import { Button } from "@/shared/shadcn/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/shadcn/ui/dropdown-menu";
 
 type Transaction = {
   id: string;
@@ -55,6 +67,44 @@ export const columns: ColumnDef<Transaction>[] = [
     cell: ({ row }) => {
       const type = row.getValue("type") as string;
       return type === "income" ? "Доход" : "Расход";
+    },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const transaction = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Открыть меню</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Действия</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                console.log("Edit transaction:", transaction.id);
+              }}
+            >
+              <Pencil className="mr-2 h-4 w-4" />
+              Редактировать
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => {
+                console.log("Delete transaction:", transaction.id);
+              }}
+            >
+              <Trash className="mr-2 h-4 w-4" />
+              Удалить
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
 ];
