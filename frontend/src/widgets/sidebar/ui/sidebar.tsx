@@ -31,26 +31,50 @@ const items = [
 
 export function AppSidebar() {
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup className='space-y-8 p-4'>
-          <SidebarGroupLabel className='text-3xl font-bold text-foreground'><span className='text-main-accent'>Cent</span>Keeper</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className='gap-2'>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton variant={"outline"} asChild>
-                    <Link href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <>
+      <Sidebar className="hidden sm:flex">
+        <SidebarContent>
+          <SidebarGroup className='space-y-8 p-4'>
+            <SidebarGroupLabel className='text-3xl font-bold text-foreground'><span className='text-main-accent'>Cent</span>Keeper</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className='gap-2'>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton variant={"outline"} asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+      <Sidebar className="flex sm:hidden" side="right">
+        <SidebarContent>
+          <SidebarGroup className='space-y-8 p-4'>
+            <SidebarGroupLabel className='text-3xl font-bold text-foreground'><span className='text-main-accent'>Cent</span>Keeper</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu className='gap-2'>
+                {items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton variant={"outline"} asChild>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      </Sidebar>
+    </>
+
   )
 }
