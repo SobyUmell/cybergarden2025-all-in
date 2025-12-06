@@ -1,58 +1,53 @@
-"use client"
+"use client";
 
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { z } from "zod"
-import { queryTma } from "@/shared/api/api-client"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useRouter } from "next/navigation";
+import { useCreateTransaction } from "../../hooks";
 
 const createTransactionFormSchema = z.object({
+  date: z.number(),
+  kategoria: z.string().min(1, "Категория обязательна"),
+  type: z.string().min(1, "Тип обязателен"),
   amount: z.number().min(0.01, "Сумма должна быть больше 0"),
-  type: z.enum(["Пополнение/Доход", "Списание/Покупка"]),
-  description: z.string().optional(),
-  date: z.string().min(1, "Дата обязательна"),
-})
+  description: z.string(),
+});
 
-export type CreateTransactionFormValues = z.infer<typeof createTransactionFormSchema>
-
-const createTransaction = async (data: CreateTransactionFormValues) => {
-  return queryTma("/api/transactions", {
-    method: "POST",
-    body: JSON.stringify(data),
-  })
-}
+export type CreateTransactionFormValues = z.infer<
+  typeof createTransactionFormSchema
+>;
 
 export const useCreateTransactionForm = () => {
-  const queryClient = useQueryClient()
+  const router = useRouter();
+  const createMutation = useCreateTransaction();
 
   const form = useForm<CreateTransactionFormValues>({
     resolver: zodResolver(createTransactionFormSchema),
     defaultValues: {
+      date: Date.now(),
+      kategoria: "",
+      type: "Списание/Покупка",
       amount: 0,
-      type: "Пополнение/Доход",
       description: "",
-      date: new Date().toISOString().split("T")[0],
     },
-  })
+  });
 
-  const mutation = useMutation({
-    mutationFn: createTransaction,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["transactions"] })
-      form.reset()
-    },
-  })
-
-  const onSubmit = (data: CreateTransactionFormValues) => {
-    mutation.mutate(data)
-  }
+  const onSubmit = async (data: CreateTransactionFormValues) => {
+    try {
+      await createMutation.mutateAsync(data);
+      router.push("/transactions");
+    } catch (error) {
+      console.error("Failed to create transaction:", error);
+    }
+  };
 
   return {
     form,
     onSubmit: form.handleSubmit(onSubmit),
-    isLoading: mutation.isPending,
-    isSuccess: mutation.isSuccess,
-    isError: mutation.isError,
-    error: mutation.error,
-  }
-}
+    isLoading: createMutation.isPending,
+    isSuccess: createMutation.isSuccess,
+    isError: createMutation.isError,
+    error: createMutation.error,
+  };
+};

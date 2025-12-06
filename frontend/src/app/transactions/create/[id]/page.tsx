@@ -1,15 +1,10 @@
-import { CreateTransactionForm } from "@/features/transaction/create-transaction/ui/create-transaction-form"
+import { CreateTransactionForm } from "@/features/transaction/create-transaction/ui/create-transaction-form";
 
-export default async function CreateTransactionPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params
-
+export default function CreateTransactionPage() {
   return (
-    <div>
-      <CreateTransactionForm id={id} />
+    <div className="space-y-4">
+      <h1 className="text-2xl md:text-3xl font-bold">Создать транзакцию</h1>
+      <CreateTransactionForm />
     </div>
-  )
+  );
 }

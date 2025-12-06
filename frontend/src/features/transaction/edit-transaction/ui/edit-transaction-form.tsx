@@ -1,6 +1,6 @@
 "use client";
 
-import { useCreateTransactionForm } from "../lib/use-create-transaction-form";
+import { useEditTransactionForm } from "../lib/use-edit-transaction-form";
 import {
   Form,
   FormControl,
@@ -19,9 +19,27 @@ import {
   SelectValue,
 } from "@/shared/shadcn/ui/select";
 import Link from "next/link";
+import type { Transaction } from "@/entities/transaction/model/transaction.schema";
 
-export const CreateTransactionForm = () => {
-  const { form, onSubmit, isLoading } = useCreateTransactionForm();
+interface EditTransactionFormProps {
+  transaction?: Transaction;
+}
+
+export const EditTransactionForm = ({
+  transaction,
+}: EditTransactionFormProps) => {
+  const { form, onSubmit, isLoading } = useEditTransactionForm(transaction);
+
+  if (!transaction) {
+    return (
+      <div className="space-y-4">
+        <p>Транзакция не найдена</p>
+        <Button asChild>
+          <Link href="/transactions">Назад к списку</Link>
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -38,7 +56,7 @@ export const CreateTransactionForm = () => {
                 <FormLabel>Тип транзакции</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -140,7 +158,7 @@ export const CreateTransactionForm = () => {
           />
         </div>
         <Button type="submit" className="w-fit mt-2" disabled={isLoading}>
-          {isLoading ? "Создание..." : "Создать транзакцию"}
+          {isLoading ? "Сохранение..." : "Сохранить изменения"}
         </Button>
       </form>
     </Form>
