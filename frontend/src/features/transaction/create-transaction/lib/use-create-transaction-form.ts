@@ -37,7 +37,10 @@ export const useCreateTransactionForm = () => {
 
   const onSubmit = async (data: CreateTransactionFormValues) => {
     try {
-      await createMutation.mutateAsync(data);
+      await createMutation.mutateAsync({
+        ...data,
+        id: data.id ?? 0,
+      });
       router.push("/transactions");
     } catch (error) {
       console.error("Failed to create transaction:", error);

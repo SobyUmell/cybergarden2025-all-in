@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tantml:react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { transactionApi } from "../api";
 import type { DeleteTransaction } from "@/entities/transaction/model/transaction.schema";
 
