@@ -14,28 +14,23 @@ import {
 const items = [
   {
     title: "Главная",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
     title: "Аналитика",
-    url: "#",
+    url: "/analytics",
     icon: ChartPie,
   },
   {
     title: "Транзакции",
-    url: "#",
+    url: "/transactions",
     icon: ArrowLeftRight,
   },
   {
     title: "Ассистент",
-    url: "#",
+    url: "/assistant",
     icon: BotMessageSquare,
-  },
-  {
-    title: "Настройки",
-    url: "#",
-    icon: Settings,
   },
 ]
 

@@ -29,7 +29,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClientProviders>
-          <div className="@container">
+          <div className="w-full @container p-5">
             {children}
           </div>
         </ClientProviders>
