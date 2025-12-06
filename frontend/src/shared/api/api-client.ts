@@ -20,4 +20,4 @@ export const queryTma = async <T>(
   }
 
   return res.json() as Promise<T>;
-};
+}
