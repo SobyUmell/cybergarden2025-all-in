@@ -23,7 +23,11 @@ const createTransaction = async (data: CreateTransactionFormValues) => {
   })
 }
 
-export const useCreateTransactionForm = () => {
+interface UseCreateTransactionFormProps {
+  id: string
+}
+
+export const useCreateTransactionForm = ({ id }: UseCreateTransactionFormProps) => {
   const queryClient = useQueryClient()
 
   const form = useForm<CreateTransactionFormValues>({

@@ -1,3 +1,5 @@
+import { CreateTransactionForm } from "@/features/transaction/create-transaction/ui/create-transaction-form"
+
 export default async function CreateTransactionPage({
   params,
 }: {
@@ -7,6 +9,7 @@ export default async function CreateTransactionPage({
 
   return (
     <div>
+      <CreateTransactionForm id={id} />
     </div>
   )
 }

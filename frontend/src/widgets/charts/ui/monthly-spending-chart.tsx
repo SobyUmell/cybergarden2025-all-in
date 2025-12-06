@@ -1,6 +1,6 @@
 "use client"
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Legend, Line } from "recharts"
 
 const data = [
   { month: "Янв", amount: 98000 },
@@ -16,13 +16,14 @@ export const MonthlySpendingChart = () => {
     <div className="w-full h-[300px] md:h-[350px]">
       <h3 className="text-lg font-semibold mb-4">Ежемесячные расходы</h3>
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={data}>
+        <LineChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="month" />
           <YAxis />
           <Tooltip />
-          <Area type="monotone" dataKey="amount" stroke="#ff8042" fill="#ff8042" name="Расходы" />
-        </AreaChart>
+          <Legend />
+          <Line type="monotone" dataKey="amount" stroke="#8884d8" strokeWidth={2} name="Расходы" />
+        </LineChart>
       </ResponsiveContainer>
     </div>
   )

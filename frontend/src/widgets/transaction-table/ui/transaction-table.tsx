@@ -1,6 +1,6 @@
 "use client"
 import { DataTable } from "@/shared/ui/data-table"
-import { columns } from "../model/category.columns"
+import { columns } from "../model/transaction.columns"
 
 type Transaction = {
   id: string;
@@ -134,7 +134,7 @@ const data: Transaction[] = [
   },
 ];
 
-export const CategoryTable = () => {
+export const TransactionTable = () => {
   return (
     <DataTable
       columns={columns}

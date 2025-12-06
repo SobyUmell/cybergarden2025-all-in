@@ -12,8 +12,12 @@ import {
 import { Input } from "@/shared/shadcn/ui/input"
 import { Button } from "@/shared/shadcn/ui/button"
 
-export const CreateTransactionForm = () => {
-  const { form, onSubmit, isLoading } = useCreateTransactionForm()
+interface CreateTransactionFormProps {
+  id: string
+}
+
+export const CreateTransactionForm = ({ id }: CreateTransactionFormProps) => {
+  const { form, onSubmit, isLoading } = useCreateTransactionForm({ id })
 
   return (
     <Form {...form}>

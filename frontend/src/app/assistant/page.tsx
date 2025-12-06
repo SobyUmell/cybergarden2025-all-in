@@ -9,23 +9,9 @@ export const metadata: Metadata = {
 
 export default function AssistantPage() {
   return (
-    <div className="flex min-h-screen flex-col p-8">
-      <div className="mb-8 flex items-center justify-between">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-bold">AI Ассистент</h1>
-          <p className="text-muted-foreground">
-            Умный помощник для управления финансами
-          </p>
-        </div>
-        <Link href="/">
-          <Button variant="outline">На главную</Button>
-        </Link>
-      </div>
-
-      <div className="flex flex-col gap-4">
-        <p className="text-muted-foreground">
-          Здесь будет интерфейс AI ассистента
-        </p>
+    <div>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">Ассистент</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       </div>
     </div>
   );

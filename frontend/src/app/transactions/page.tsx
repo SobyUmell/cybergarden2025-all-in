@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { CategoryTable } from "@/widgets/category-table";
+import { TransactionTable } from "@/widgets/transaction-table";
+import { Button } from "@/shared/shadcn/ui/button";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "История транзакций",
@@ -8,8 +10,13 @@ export const metadata: Metadata = {
 
 export default function TransactionsPage() {
   return (
-    <div>
-      <CategoryTable />
+    <div className="space-y-5">
+      <Button asChild>
+        <Link href="/transactions/create/1">
+          Добавить транзакцию
+        </Link>
+      </Button>
+      <TransactionTable />
     </div>
   );
 }
