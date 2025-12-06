@@ -1,23 +1,28 @@
 import { z } from "zod";
 
 export const transactionSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  categoryId: z.string(),
+  id: z.number(),
+  date: z.number(),
+  kategoria: z.string(),
+  type: z.string(),
   amount: z.number(),
-  type: z.enum(["income", "expense"]),
-  description: z.string().optional(),
-  date: z.date(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
+  description: z.string(),
 });
 
 export type Transaction = z.infer<typeof transactionSchema>;
 
 export const createTransactionSchema = transactionSchema.omit({
   id: true,
-  createdAt: true,
-  updatedAt: true,
 });
 
 export type CreateTransaction = z.infer<typeof createTransactionSchema>;
+
+export const updateTransactionSchema = transactionSchema;
+
+export type UpdateTransaction = z.infer<typeof updateTransactionSchema>;
+
+export const deleteTransactionSchema = z.object({
+  id: z.number(),
+});
+
+export type DeleteTransaction = z.infer<typeof deleteTransactionSchema>;
