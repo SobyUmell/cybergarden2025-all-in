@@ -1,0 +1,10 @@
+env: "local" # local, production
+grpc:
+  port: 2011
+  timeout: 20s
+bot: 
+  token: "8011424482:AAEQd6xZoJH9gCf2oJfmh6z1-2qWZnWp0_s"
+  tradeToken: "CtTeKffFRJhhGUttyqaStT"
+  webhookToken: "lqxvHTdJXgthPEuYUtSJGFXoGOXKABsibGlvNyBcGHp"
+  webURL: "https://all-in-stardust.ru/"
+  port: 8081

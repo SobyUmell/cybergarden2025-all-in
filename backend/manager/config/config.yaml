@@ -1,0 +1,19 @@
+env: "local" # local, production
+
+httpserver:
+  port: 8080
+  host: localhost
+
+client:
+  bot:
+    port: 2011
+    host: bot
+
+  database:
+    host: database-service
+    port: 2012
+  
+  ml:
+    host: ml-service
+    port: 2014
+  

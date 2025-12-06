@@ -1,0 +1,12 @@
+env: "local" # local, production
+grpc:
+  port: 2012
+  timeout: 20s
+
+postgres:
+  host: "db"
+  port: 5432
+  user: "cybergardenadmin"
+  password: "cybergardeninstall"
+  database: "cybergardendata"
+  migrations_path: "./migrations"
