@@ -11,9 +11,7 @@ export const transactionSchema = z.object({
 
 export type Transaction = z.infer<typeof transactionSchema>;
 
-export const createTransactionSchema = transactionSchema.omit({
-  id: true,
-});
+export const createTransactionSchema = transactionSchema;
 
 export type CreateTransaction = z.infer<typeof createTransactionSchema>;
 

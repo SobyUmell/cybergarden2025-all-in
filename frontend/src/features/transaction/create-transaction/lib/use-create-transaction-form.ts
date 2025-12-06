@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useCreateTransaction } from "../../hooks";
 
 const createTransactionFormSchema = z.object({
+  id: z.number().optional(),
   date: z.number(),
   kategoria: z.string().min(1, "Категория обязательна"),
   type: z.string().min(1, "Тип обязателен"),
@@ -25,6 +26,7 @@ export const useCreateTransactionForm = () => {
   const form = useForm<CreateTransactionFormValues>({
     resolver: zodResolver(createTransactionFormSchema),
     defaultValues: {
+      id: 0,
       date: Date.now(),
       kategoria: "",
       type: "Списание/Покупка",
