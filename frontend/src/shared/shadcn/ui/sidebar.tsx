@@ -273,8 +273,8 @@ function SidebarTrigger({
       }}
       {...props}
     >
-      <PanelLeftIcon className="hidden sm:block" />
-      <MenuIcon className="size-6 block sm:hidden" />
+      <PanelLeftIcon className="hidden md:block" />
+      <MenuIcon className="size-6 block md:hidden" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   )
