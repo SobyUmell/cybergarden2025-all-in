@@ -38,8 +38,8 @@ export function AppSidebar() {
   return (
     <Sidebar>
       <SidebarContent>
-        <SidebarGroup className='space-y-8 pt-4'>
-          <SidebarGroupLabel className='text-3xl font-bold text-foreground'><span className='text-foreground'>Cent</span>Keeper</SidebarGroupLabel>
+        <SidebarGroup className='space-y-8 p-4'>
+          <SidebarGroupLabel className='text-3xl font-bold text-foreground'><span className='text-main-accent'>Cent</span>Keeper</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className='gap-2'>
               {items.map((item) => (

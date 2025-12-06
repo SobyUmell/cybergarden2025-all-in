@@ -75,8 +75,8 @@ export function DataTable<TData, TValue>({
         searchPlaceholder={searchPlaceholder}
       />
       <div className="overflow-hidden rounded-md border">
-        <Table>
-          <TableHeader className="bg-muted">
+        <Table className="text-base">
+          <TableHeader className="bg-main-accent-muted">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -100,7 +100,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="even:bg-muted"
+                  className="even:bg-main-accent-muted/50"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

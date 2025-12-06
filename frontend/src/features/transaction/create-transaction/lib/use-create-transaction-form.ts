@@ -7,9 +7,8 @@ import { z } from "zod"
 import { queryTma } from "@/shared/api/api-client"
 
 const createTransactionFormSchema = z.object({
-  categoryId: z.string().min(1, "Категория обязательна"),
   amount: z.number().min(0.01, "Сумма должна быть больше 0"),
-  type: z.enum(["income", "expense"]),
+  type: z.enum(["Пополнение/Доход", "Списание/Покупка"]),
   description: z.string().optional(),
   date: z.string().min(1, "Дата обязательна"),
 })
@@ -23,19 +22,14 @@ const createTransaction = async (data: CreateTransactionFormValues) => {
   })
 }
 
-interface UseCreateTransactionFormProps {
-  id: string
-}
-
-export const useCreateTransactionForm = ({ id }: UseCreateTransactionFormProps) => {
+export const useCreateTransactionForm = () => {
   const queryClient = useQueryClient()
 
   const form = useForm<CreateTransactionFormValues>({
     resolver: zodResolver(createTransactionFormSchema),
     defaultValues: {
-      categoryId: "",
       amount: 0,
-      type: "expense",
+      type: "Пополнение/Доход",
       description: "",
       date: new Date().toISOString().split("T")[0],
     },
