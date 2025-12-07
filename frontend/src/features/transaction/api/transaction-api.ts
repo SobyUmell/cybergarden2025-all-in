@@ -40,4 +40,14 @@ export const transactionApi = {
       body: JSON.stringify({ message }),
     });
   },
+
+  getAdvice: async (): Promise<{ advice: string }> => {
+    return queryTma<{ advice: string }>(`${API_BASE}/webapp/advice`);
+  },
+
+  clearContext: async (): Promise<{ status: string }> => {
+    return queryTma<{ status: string }>(`${API_BASE}/webapp/clear-context`, {
+      method: "POST",
+    });
+  },
 };

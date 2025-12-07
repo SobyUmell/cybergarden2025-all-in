@@ -4,6 +4,7 @@ import {
   IncomeExpenseChart,
   MonthlySpendingChart,
 } from "@/widgets/charts";
+import { FinancialAdvice } from "@/widgets/financial-advice";
 
 export const metadata: Metadata = {
   title: "Аналитика",
@@ -27,6 +28,8 @@ export default function AnalyticsPage() {
           <MonthlySpendingChart />
         </div>
       </div>
+
+      <FinancialAdvice />
     </div>
   );
 }
