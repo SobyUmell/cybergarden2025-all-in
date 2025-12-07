@@ -22,7 +22,7 @@ COPY --from=builder /app/database-app .
 
 COPY --from=builder /app/config/config.yaml ./config/config.yaml
 
-COPY --from=builder /app/internal/migrations ./internal/migrations
+COPY --from=builder /app/migrations ./migrations
 
 RUN touch app.log && chown appuser:appgroup app.log
 
