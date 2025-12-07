@@ -28,26 +28,26 @@ export const ExpenseByCategoryChart = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[300px] md:h-[350px] flex items-center justify-center">
-        <p>Загрузка...</p>
+      <div className="w-full h-[250px] md:h-[350px] flex items-center justify-center">
+        <p className="text-sm">Загрузка...</p>
       </div>
     )
   }
 
   if (categoryData.length === 0) {
     return (
-      <div className="w-full h-[300px] md:h-[350px]">
-        <h3 className="text-lg font-semibold mb-4">Расходы по категориям</h3>
+      <div className="w-full h-[250px] md:h-[350px]">
+        <h3 className="text-base md:text-lg font-semibold mb-2 md:mb-4">Расходы по категориям</h3>
         <div className="flex items-center justify-center h-full">
-          <p className="text-muted-foreground">Нет данных о расходах</p>
+          <p className="text-sm text-muted-foreground">Нет данных о расходах</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="w-full h-[300px] md:h-[350px]">
-      <h3 className="text-lg font-semibold mb-4">Расходы по категориям</h3>
+    <div className="w-full h-[250px] md:h-[350px]">
+      <h3 className="text-base md:text-lg font-semibold mb-2 md:mb-4">Расходы по категориям</h3>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -56,7 +56,7 @@ export const ExpenseByCategoryChart = () => {
             cy="50%"
             labelLine={false}
             label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
-            outerRadius={80}
+            outerRadius={60}
             fill="#8884d8"
             dataKey="value"
           >
@@ -65,7 +65,7 @@ export const ExpenseByCategoryChart = () => {
             ))}
           </Pie>
           <Tooltip />
-          <Legend />
+          <Legend wrapperStyle={{ fontSize: '12px' }} />
         </PieChart>
       </ResponsiveContainer>
     </div>
