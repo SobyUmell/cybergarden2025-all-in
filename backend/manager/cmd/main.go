@@ -45,7 +45,7 @@ func logInit(env string) (*logrus.Logger, func() error) {
 	default:
 		level = "debug"
 	}
-	logFile, err := os.OpenFile("app.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0666)
+	logFile, err := os.OpenFile("app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("Critical error: failed to open log file: %v\n", err)
 	}

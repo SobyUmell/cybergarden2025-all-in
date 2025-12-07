@@ -34,6 +34,8 @@ services:
       context: ./backend/database 
       dockerfile: Dockerfile
     restart: unless-stopped
+    volumes:
+      - ./backend/database/app.log:/app/app.log
     expose:
       - 2012
     networks:
@@ -61,6 +63,8 @@ services:
       context: ./backend/manager
       dockerfile: Dockerfile
     restart: unless-stopped
+    volumes:
+      - ./backend/manager/app.log:/app/app.log
     ports:
       - "8080:8080"
     networks:
@@ -68,3 +72,7 @@ services:
     depends_on:
       - bot
       - database-service
+
+networks:
+  cybergarden-net:
+    driver: bridge
