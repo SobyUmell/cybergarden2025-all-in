@@ -4,7 +4,7 @@ go 1.24.2
 
 require (
 	github.com/PrototypeSirius/protos_service v0.0.0-20251206133529-ad042aab1d47
-	github.com/PrototypeSirius/ruglogger v0.0.0-20251116235218-0aa354b7deb2
+	github.com/PrototypeSirius/ruglogger v0.0.0-20251207014209-be4793c87eb3
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-gonic/gin v1.11.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0

@@ -12,6 +12,3 @@ type Transaction struct {
 type UserID struct {
 	Uid int64 `json:"uid"`
 }
-
-type Metrics struct {
-}

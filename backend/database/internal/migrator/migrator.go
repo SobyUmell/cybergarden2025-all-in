@@ -19,7 +19,7 @@ func Run(log *logrus.Logger, db *sql.DB, migrationsPath string) error {
 		return apperror.SystemError(err, 1501, "could not create database driver")
 	}
 	m, err := migrate.NewWithDatabaseInstance(
-		"file://"+migrationsPath,
+		migrationsPath,
 		"postgres",
 		driver,
 	)

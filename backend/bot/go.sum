@@ -1,11 +1,9 @@
 github.com/BurntSushi/toml v1.2.1 h1:9F2/+DoOYIOksmaJFPw1tGFy1eDnIJXg+UHjuD8lTak=
 github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
-github.com/PrototypeSirius/protos_service v0.0.0-20251205214121-8599937f9392 h1:/aA/TShz3rDAF821FJyYUZ0n9wjXFHacYZ+mjLpefRg=
-github.com/PrototypeSirius/protos_service v0.0.0-20251205214121-8599937f9392/go.mod h1:hOJuOHkvh867yXdbopMLGrc0gRiSI+ENZWRBqSZSiNw=
 github.com/PrototypeSirius/protos_service v0.0.0-20251206133529-ad042aab1d47 h1:slbJBbdCL1XnGLqam6WMGELX1VmilIE26xWRCXB1BzE=
 github.com/PrototypeSirius/protos_service v0.0.0-20251206133529-ad042aab1d47/go.mod h1:hOJuOHkvh867yXdbopMLGrc0gRiSI+ENZWRBqSZSiNw=
-github.com/PrototypeSirius/ruglogger v0.0.0-20251116235218-0aa354b7deb2 h1:67qBAnVo8NJxag8sBFZNsobQEWHhr0np3QhXfRAl7R8=
-github.com/PrototypeSirius/ruglogger v0.0.0-20251116235218-0aa354b7deb2/go.mod h1:3KeQKrOLvDy6xVl90WmKDW3VyQwtWvvvQb3wWkR059s=
+github.com/PrototypeSirius/ruglogger v0.0.0-20251207014209-be4793c87eb3 h1:7yyR4gg0hWz+PrfHPpIzQNkL0P+zIBRGRhouKkTRGLM=
+github.com/PrototypeSirius/ruglogger v0.0.0-20251207014209-be4793c87eb3/go.mod h1:3KeQKrOLvDy6xVl90WmKDW3VyQwtWvvvQb3wWkR059s=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

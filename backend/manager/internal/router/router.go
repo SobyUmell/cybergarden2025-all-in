@@ -36,16 +36,11 @@ func (h *Handler) RouterRegister(r *gin.Engine) {
 	api := r.Group("/webapp")
 	api.Use(h.authUser)
 	{
-		api.GET("/datametrics", h.requestDataMetrics)
 		api.GET("/datahistory", h.requestDataHistory)
 		api.POST("/addt", h.addTransaction)
 		api.POST("/deletet", h.deleteTransaction)
 		api.POST("/updatet", h.updateTransaction)
 	}
-}
-
-func (h *Handler) requestDataMetrics(c *gin.Context) {
-
 }
 
 func (h *Handler) requestDataHistory(c *gin.Context) {
