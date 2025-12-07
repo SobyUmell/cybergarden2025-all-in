@@ -9,4 +9,4 @@ postgres:
   user: "cybergardenadmin"
   password: "cybergardeninstall"
   database: "cybergardendata"
-  migrations_path: "./internal/migrations"
+  migrations_path: "file://internal/migrations"
