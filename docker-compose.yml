@@ -68,6 +68,11 @@ services:
     networks:
       - cybergarden-net
     command: serve & ollama pull gemma3
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:11434"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   ml-service:
     build:
@@ -83,7 +88,8 @@ services:
     networks:
       - cybergarden-net
     depends_on:
-      - ollama
+      ollama:
+        condition: service_healthy
 
   manager:
     build:
