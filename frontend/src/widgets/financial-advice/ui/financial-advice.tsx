@@ -22,7 +22,7 @@ export const FinancialAdvice = () => {
     mutation.mutate()
   }
 
-  const isTimeout = mutation.isError && mutation.error instanceof Error && 
+  const isTimeout = mutation.isError && mutation.error instanceof Error &&
     (mutation.error.message.includes("timeout") || mutation.error.message.includes("aborted"))
 
   return (
@@ -41,7 +41,7 @@ export const FinancialAdvice = () => {
         ) : (
           <>
             <Lightbulb className="w-5 h-5 mr-2" />
-            Получить финансовые рекомендации
+            Получить рекомендации
           </>
         )}
       </Button>
@@ -71,8 +71,8 @@ export const FinancialAdvice = () => {
                 {isTimeout ? "Время ожидания истекло" : "Ошибка при получении рекомендаций"}
               </p>
               <p className="text-xs text-destructive/80 mt-1">
-                {isTimeout 
-                  ? "Сервер не успел обработать запрос. Попробуйте позже." 
+                {isTimeout
+                  ? "Сервер не успел обработать запрос. Попробуйте позже."
                   : "Не удалось получить рекомендации. Попробуйте позже."}
               </p>
             </div>
