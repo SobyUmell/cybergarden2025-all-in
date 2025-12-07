@@ -58,6 +58,39 @@ services:
     networks:
       - cybergarden-net
 
+  ollama:
+    image: ollama/ollama:latest
+    container_name: gemma_engine
+    volumes:
+      - ollama_data:/root/.ollama
+    expose:
+      - 11434
+    networks:
+      - cybergarden-net
+    # Раскомментируйте для GPU
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  ml-service:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - OLLAMA_URL=http://ollama:11434/api/chat
+      - MODEL_NAME=gemma3
+      - PORT=8082
+    expose:
+      - 8082
+    networks:
+      - cybergarden-net
+    depends_on:
+      - ollama
   manager:
     build:
       context: ./backend/manager
@@ -73,6 +106,9 @@ services:
       - bot
       - database-service
 
+volumes:
+  ollama_data:
+  
 networks:
   cybergarden-net:
     driver: bridge

@@ -5,6 +5,7 @@ import (
 	"manager/internal/config"
 	botrepo "manager/internal/repository/bot"
 	databaserepo "manager/internal/repository/database"
+	mlrepo "manager/internal/repository/ml"
 	"manager/internal/router"
 	httpservice "manager/internal/services"
 
@@ -28,16 +29,14 @@ func New(log *logrus.Logger, cfg config.Config) *App {
 		logger.FatalOnError(err, "error init database client")
 	}
 
-	// 2. Initialize Service (Business Logic)
-	managerService := httpservice.New(log, botClient, databaseClient)
+	mlClient := mlrepo.New(log, cfg.Client.ML.Host, cfg.Client.ML.Port)
 
-	// 3. Initialize Handler (Router)
+	managerService := httpservice.New(log, botClient, databaseClient, mlClient)
+
 	httpHandler := router.New(log, managerService)
 
-	// 4. Initialize HTTP Server (Gin)
 	httpServer, engine := httpapp.New(log, cfg.HttpServer.Port)
 
-	// 5. Register Routes
 	httpHandler.RouterRegister(engine)
 
 	return &App{HTTPApp: httpServer}

@@ -15,5 +15,5 @@ client:
   
   ml:
     host: ml-service
-    port: 2014
+    port: 8082
   

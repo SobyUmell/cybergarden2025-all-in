@@ -14,10 +14,11 @@ import (
 
 type ServiceAPI interface {
 	AuthUser(ctx context.Context, initData string) (int64, error)
-	AddTransaction(ctx context.Context, uid int64, t model.Transaction) error
+	AddTransaction(ctx context.Context, uid int64, t model.TransactionMl) error
 	DeleteTransaction(ctx context.Context, uid, tid int64) error
 	EditTransaction(ctx context.Context, uid int64, t model.Transaction) error
 	GetHistory(ctx context.Context, uid int64) ([]model.Transaction, error)
+	Chat(ctx context.Context, uid int64, prompt string) (string, error)
 }
 
 type Handler struct {
@@ -40,6 +41,7 @@ func (h *Handler) RouterRegister(r *gin.Engine) {
 		api.POST("/addt", h.addTransaction)
 		api.POST("/deletet", h.deleteTransaction)
 		api.POST("/updatet", h.updateTransaction)
+		api.POST("/chat", h.chat)
 	}
 }
 
@@ -58,7 +60,7 @@ func (h *Handler) requestDataHistory(c *gin.Context) {
 func (h *Handler) addTransaction(c *gin.Context) {
 	uid := c.GetInt64("uid")
 
-	var t model.Transaction
+	var t model.TransactionMl
 	if err := c.BindJSON(&t); err != nil {
 		_ = c.Error(apperror.BadRequestError(err, 4001, "invalid json body"))
 		return
@@ -142,4 +144,24 @@ func (h *Handler) authUser(c *gin.Context) {
 	}
 	c.Set("uid", uid)
 	c.Next()
+}
+
+func (h *Handler) chat(c *gin.Context) {
+	uid := c.GetInt64("uid")
+
+	var req struct {
+		Prompt string `json:"prompt"`
+	}
+	if err := c.BindJSON(&req); err != nil {
+		_ = c.Error(apperror.BadRequestError(err, 4006, "invalid json body"))
+		return
+	}
+
+	resp, err := h.service.Chat(c.Request.Context(), uid, req.Prompt)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"response": resp})
 }

@@ -2,8 +2,6 @@ github.com/BurntSushi/toml v1.2.1 h1:9F2/+DoOYIOksmaJFPw1tGFy1eDnIJXg+UHjuD8lTak
 github.com/BurntSushi/toml v1.2.1/go.mod h1:CxXYINrC8qIiEnFrOxCa7Jy5BFHlXnUU2pbicEuybxQ=
 github.com/PrototypeSirius/protos_service v0.0.0-20251206133529-ad042aab1d47 h1:slbJBbdCL1XnGLqam6WMGELX1VmilIE26xWRCXB1BzE=
 github.com/PrototypeSirius/protos_service v0.0.0-20251206133529-ad042aab1d47/go.mod h1:hOJuOHkvh867yXdbopMLGrc0gRiSI+ENZWRBqSZSiNw=
-github.com/PrototypeSirius/ruglogger v0.0.0-20251116235218-0aa354b7deb2 h1:67qBAnVo8NJxag8sBFZNsobQEWHhr0np3QhXfRAl7R8=
-github.com/PrototypeSirius/ruglogger v0.0.0-20251116235218-0aa354b7deb2/go.mod h1:3KeQKrOLvDy6xVl90WmKDW3VyQwtWvvvQb3wWkR059s=
 github.com/PrototypeSirius/ruglogger v0.0.0-20251207014209-be4793c87eb3 h1:7yyR4gg0hWz+PrfHPpIzQNkL0P+zIBRGRhouKkTRGLM=
 github.com/PrototypeSirius/ruglogger v0.0.0-20251207014209-be4793c87eb3/go.mod h1:3KeQKrOLvDy6xVl90WmKDW3VyQwtWvvvQb3wWkR059s=
 github.com/bytedance/sonic v1.14.0 h1:/OfKt8HFw0kh2rj8N0F6C/qPGRESq0BbaNZgcNXXzQQ=
