@@ -132,7 +132,7 @@ func callOllama(messages []OllamaMessage, temp float64) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to marshal Ollama request: %w", err)
 	}
-	client := &http.Client{Timeout: 30 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second}
 
 	resp, err := client.Post(OllamaURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {
