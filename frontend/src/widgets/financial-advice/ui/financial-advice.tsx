@@ -31,7 +31,7 @@ export const FinancialAdvice = () => {
         onClick={handleGetAdvice}
         disabled={mutation.isPending}
         size="lg"
-        className="w-full md:w-auto"
+        className="w-full md:w-auto gap-1"
       >
         {mutation.isPending ? (
           <>
