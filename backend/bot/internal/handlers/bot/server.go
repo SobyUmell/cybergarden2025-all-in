@@ -43,7 +43,6 @@ func HandleStart(cfg config.BotConfig) bot.HandlerFunc {
 		})
 	}
 }
-
 func HandleHelp(ctx context.Context, b *bot.Bot, update *models.Update) {
 	b.SendMessage(ctx, &bot.SendMessageParams{
 		ChatID: update.Message.Chat.ID,
