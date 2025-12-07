@@ -80,7 +80,7 @@ services:
       - ollama_data:/root/.ollama
     networks:
       - cybergarden-net
-    command: ollama pull gemma3
+    command: pull gemma3
     depends_on:
       ollama:
         condition: service_healthy
