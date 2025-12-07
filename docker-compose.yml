@@ -118,6 +118,7 @@ services:
     depends_on:
       - bot
       - database-service
+      - ml-service
 
 volumes:
   ollama_data:
