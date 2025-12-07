@@ -1,3 +1,4 @@
+version: '3.8'
 services:
 
   frontend:
@@ -76,8 +77,9 @@ services:
       resources:
         reservations:
           devices:
-            - capabilities: [gpu]
-    runtime: nvidia
+            - driver: nvidia
+              count: all
+              capabilities: [gpu, compute, utility]
 
   ollama-init: 
     image: ollama/ollama:latest
@@ -91,7 +93,6 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
-    runtime: nvidia
 
   ml-service:
     build:
