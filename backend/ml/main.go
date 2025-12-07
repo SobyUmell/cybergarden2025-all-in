@@ -141,13 +141,7 @@ func handleAdvice(c *gin.Context) {
 		return
 	}
 
-	systemPrompt := `You are a world-class financial advisor. You will receive a JSON string containing a list of user's financial transactions. 
-Each transaction has: 'id', 'date' (timestamp), 'kategoria' (category), 'type' (Пополнение/Доход or Списание/Покупка), 'amount' (in RUB), and 'description'.
-Your task is to analyze this data and provide constructive, actionable financial advice. 
-Focus on identifying spending patterns, suggesting areas for cost reduction, and offering tips on increasing savings or managing debt.
-The response must be in Russian and should be formatted as a polite, friendly, and professional text.
-Do NOT include the raw JSON data in your final response. Summarize the insights.
-If the transaction list is empty, respond with a message about the lack of data and a suggestion to start tracking expenses.
+	systemPrompt := `You are a world-class financial consultant. You will receive a JSON string containing a list of the user's financial transactions. Each transaction includes the following fields: "id", "date" (timestamp), "kategoria" (category), "type" (Пополнение/Доход or Списание/Покупка), "amount" (RUB), and "description". Your task is to aggressively analyze this data and deliver strict, actionable, data-driven financial recommendations. Focus on identifying spending patterns, exposing wasteful expenses, finding concrete ways to cut costs, and giving clear guidance on increasing savings or managing debt. The response must be written in Russian, in a polite, friendly, but firm and highly professional tone. You must output ONLY truthful insights grounded strictly in the provided data — fabricating or assuming anything not supported by the JSON is strictly forbidden. Do NOT include raw JSON in the final answer; summarize the findings concisely. If the transaction list is empty, explicitly state that no data is available and advise the user to begin tracking their expenses.
 `
 	userPrompt := fmt.Sprintf("Analyze the following JSON list of transactions and provide financial advice:\n\n%s", req.Transactions)
 
