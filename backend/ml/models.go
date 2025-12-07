@@ -1,7 +1,5 @@
 package main
 
-// --- Входящие данные ---
-
 type Transaction struct {
 	Date        int64  `json:"date"`
 	Type        string `json:"type"`
@@ -41,7 +39,7 @@ type OllamaRequest struct {
 	Model    string                 `json:"model"`
 	Messages []OllamaMessage        `json:"messages"`
 	Stream   bool                   `json:"stream"`
-	Options  map[string]interface{} `json:"options,omitempty"` // Для настройки температуры
+	Options  map[string]interface{} `json:"options,omitempty"`
 }
 
 type OllamaResponse struct {

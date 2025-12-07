@@ -22,7 +22,7 @@ type MLClient struct {
 func New(log *logrus.Logger, host string, port int) *MLClient {
 	return &MLClient{
 		baseURL: fmt.Sprintf("http://%s:%d", host, port),
-		client:  &http.Client{Timeout: 120 * time.Second},
+		client:  &http.Client{Timeout: 1200 * time.Second},
 		log:     log,
 	}
 }
