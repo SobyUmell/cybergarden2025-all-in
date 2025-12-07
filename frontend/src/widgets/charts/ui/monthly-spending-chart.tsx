@@ -38,33 +38,33 @@ export const MonthlySpendingChart = () => {
 
   if (isLoading) {
     return (
-      <div className="w-full h-[300px] md:h-[350px] flex items-center justify-center">
-        <p>Загрузка...</p>
+      <div className="w-full h-[250px] md:h-[350px] flex items-center justify-center">
+        <p className="text-sm">Загрузка...</p>
       </div>
     )
   }
 
   if (monthlyExpenses.length === 0) {
     return (
-      <div className="w-full h-[300px] md:h-[350px]">
-        <h3 className="text-lg font-semibold mb-4">Ежемесячные расходы</h3>
+      <div className="w-full h-[250px] md:h-[350px]">
+        <h3 className="text-base md:text-lg font-semibold mb-2 md:mb-4">Ежемесячные расходы</h3>
         <div className="flex items-center justify-center h-full">
-          <p className="text-muted-foreground">Нет данных о расходах</p>
+          <p className="text-sm text-muted-foreground">Нет данных о расходах</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="w-full h-[300px] md:h-[350px]">
-      <h3 className="text-lg font-semibold mb-4">Ежемесячные расходы</h3>
+    <div className="w-full h-[250px] md:h-[350px]">
+      <h3 className="text-base md:text-lg font-semibold mb-2 md:mb-4">Ежемесячные расходы</h3>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={monthlyExpenses}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" />
-          <YAxis />
+          <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+          <YAxis tick={{ fontSize: 12 }} />
           <Tooltip />
-          <Legend />
+          <Legend wrapperStyle={{ fontSize: '12px' }} />
           <Line type="monotone" dataKey="amount" stroke="#8884d8" strokeWidth={2} name="Расходы" />
         </LineChart>
       </ResponsiveContainer>

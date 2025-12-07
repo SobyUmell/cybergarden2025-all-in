@@ -78,6 +78,12 @@ export const AssistantChat = () => {
         setMessages([INITIAL_MESSAGE])
       }
     }
+
+    return () => {
+      transactionApi.clearContext().catch((error) => {
+        console.error("Failed to clear context on unmount:", error)
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -90,9 +96,14 @@ export const AssistantChat = () => {
     }
   }, [messages, mounted])
 
-  const handleClearHistory = () => {
+  const handleClearHistory = async () => {
     setMessages([INITIAL_MESSAGE])
     localStorage.removeItem(STORAGE_KEY)
+    try {
+      await transactionApi.clearContext()
+    } catch (error) {
+      console.error("Failed to clear context:", error)
+    }
   }
 
   return (
