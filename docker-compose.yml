@@ -80,6 +80,8 @@ services:
       - ollama_data:/root/.ollama
     networks:
       - cybergarden-net
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
     command: pull gemma3
     depends_on:
       ollama:
