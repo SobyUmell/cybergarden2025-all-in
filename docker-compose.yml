@@ -67,12 +67,23 @@ services:
       - 11434
     networks:
       - cybergarden-net
-    command: serve & ollama pull gemma3
     healthcheck:
-      test: ["CMD", "wget", "--spider", "http://localhost:11434"]
+      test: ["CMD", "curl", "-f", "http://localhost:11434"]
       interval: 10s
       timeout: 5s
-      retries: 5
+      retries: 10
+  
+
+  ollama-init: 
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - cybergarden-net
+    command: ollama pull gemma3
+    depends_on:
+      ollama:
+        condition: service_healthy
 
   ml-service:
     build:
@@ -88,8 +99,10 @@ services:
     networks:
       - cybergarden-net
     depends_on:
+      ollama-init:
+        condition: service_completed_successfully
       ollama:
-        condition: service_healthy
+        condition: service_started
 
   manager:
     build:

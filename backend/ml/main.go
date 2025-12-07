@@ -57,7 +57,6 @@ func handleCategorize(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	categoriesStr := strings.Join(AllowedCategories, ", ")
 	systemPrompt := fmt.Sprintf(`You are a strict data classification machine. 
 You will receive transaction details. 
@@ -65,23 +64,19 @@ You must return ONLY one word: the category name from the list below that best f
 Allowed categories: [%s].
 Do NOT write "The category is...", do NOT add punctuation. Return ONLY the category word.
 If you cannot decide, return "Misc".`, categoriesStr)
-
-	userPrompt := fmt.Sprintf("Transaction: %s, Amount: %q, Type: %s",
+	userPrompt := fmt.Sprintf("Transaction: %s, Amount: %d, Type: %s",
 		req.Transaction.Description, req.Transaction.Amount, req.Transaction.Type)
 
 	messages := []OllamaMessage{
 		{Role: "system", Content: systemPrompt},
 		{Role: "user", Content: userPrompt},
 	}
-
 	category, err := callOllama(messages, 0.0)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "AI Engine error", "details": err.Error()})
 		return
 	}
-
 	cleanCategory := cleanResponse(category)
-
 	if !isValidCategory(cleanCategory) {
 		log.Printf("Model hallucinated: %s. Fallback to Misc.", cleanCategory)
 		cleanCategory = "Misc"
@@ -98,13 +93,11 @@ func handleChat(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	store.Lock()
 	if _, exists := store.History[req.UserID]; !exists {
 		store.History[req.UserID] = []OllamaMessage{}
 	}
 	store.History[req.UserID] = append(store.History[req.UserID], OllamaMessage{Role: "user", Content: req.Prompt})
-
 	if len(store.History[req.UserID]) > ContextLimit {
 		store.History[req.UserID] = store.History[req.UserID][len(store.History[req.UserID])-ContextLimit:]
 	}
@@ -193,7 +186,7 @@ func cleanResponse(input string) string {
 
 func isValidCategory(cat string) bool {
 	for _, c := range AllowedCategories {
-		if strings.EqualFold(c, cat) { // Регистронезависимое сравнение
+		if strings.EqualFold(c, cat) {
 			return true
 		}
 	}
