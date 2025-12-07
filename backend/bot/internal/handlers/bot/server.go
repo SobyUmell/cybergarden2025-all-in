@@ -35,10 +35,10 @@ func SetWebhook(ctx context.Context, log *logrus.Logger, b *bot.Bot, cfg config.
 
 func HandleStart(cfg config.BotConfig) bot.HandlerFunc {
 	return func(ctx context.Context, b *bot.Bot, update *models.Update) {
-		kb := &models.InlineKeyboardMarkup{InlineKeyboard: [][]models.InlineKeyboardButton{{{Text: "MiniApp", WebApp: &models.WebAppInfo{URL: cfg.WebURL}}}}}
+		kb := &models.InlineKeyboardMarkup{InlineKeyboard: [][]models.InlineKeyboardButton{{{Text: "OPEN", WebApp: &models.WebAppInfo{URL: cfg.WebURL}}}}}
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID:      update.Message.Chat.ID,
-			Text:        "GAAAMBLING!",
+			Text:        "CentKeeper MiniApp",
 			ReplyMarkup: kb,
 		})
 	}
@@ -55,7 +55,7 @@ func HandleDefault(ctx context.Context, b *bot.Bot, update *models.Update) {
 	if update.Message != nil && update.Message.Text != "" {
 		b.SendMessage(ctx, &bot.SendMessageParams{
 			ChatID: update.Message.Chat.ID,
-			Text:   "What the actual fuck?",
+			Text:   "Введите команду. /help - список всех команд",
 		})
 	}
 }
