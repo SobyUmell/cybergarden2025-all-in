@@ -67,14 +67,7 @@ services:
       - 11434
     networks:
       - cybergarden-net
-    # Раскомментируйте для GPU
-    # deploy:
-    #   resources:
-    #     reservations:
-    #       devices:
-    #         - driver: nvidia
-    #           count: 1
-    #           capabilities: [gpu]
+    command: serve & ollama pull gemma3
 
   ml-service:
     build:
@@ -91,6 +84,7 @@ services:
       - cybergarden-net
     depends_on:
       - ollama
+
   manager:
     build:
       context: ./backend/manager
