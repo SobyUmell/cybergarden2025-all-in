@@ -20,6 +20,7 @@ type ServiceAPI interface {
 	GetHistory(ctx context.Context, uid int64) ([]model.Transaction, error)
 	Chat(ctx context.Context, uid int64, prompt string) (string, error)
 	GetFinancialAdvice(ctx context.Context, uid int64) (string, error)
+	ClearChatContext(ctx context.Context, uid int64) error
 }
 
 type Handler struct {
@@ -44,6 +45,7 @@ func (h *Handler) RouterRegister(r *gin.Engine) {
 		api.POST("/updatet", h.updateTransaction)
 		api.POST("/chat", h.chat)
 		api.GET("/advice", h.requestAdvice)
+		api.POST("/clear-context", h.clearContext)
 	}
 }
 
@@ -178,4 +180,15 @@ func (h *Handler) requestAdvice(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"advice": advice})
+}
+
+func (h *Handler) clearContext(c *gin.Context) {
+	uid := c.GetInt64("uid")
+
+	if err := h.service.ClearChatContext(c.Request.Context(), uid); err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "context cleared"})
 }

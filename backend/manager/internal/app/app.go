@@ -18,7 +18,6 @@ type App struct {
 }
 
 func New(log *logrus.Logger, cfg config.Config) *App {
-	// 1. Initialize Repositories (gRPC Clients)
 	botClient, err := botrepo.New(log, cfg.Client.Bot.Host, cfg.Client.Bot.Port)
 	if err != nil {
 		logger.FatalOnError(err, "error init bot client")

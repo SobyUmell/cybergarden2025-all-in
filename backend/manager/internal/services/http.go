@@ -14,6 +14,7 @@ type MLRepository interface {
 	CategorizeTransaction(ctx context.Context, uid int64, t model.TransactionMl) (string, error)
 	Chat(ctx context.Context, uid int64, prompt string) (string, error)
 	GetAdvice(ctx context.Context, uid int64, transactions string) (string, error)
+	ClearContext(ctx context.Context, uid int64) error
 }
 
 type BotRepository interface {
@@ -105,4 +106,8 @@ func (s *ManagerService) GetFinancialAdvice(ctx context.Context, uid int64) (str
 	}
 
 	return advice, nil
+}
+
+func (s *ManagerService) ClearChatContext(ctx context.Context, uid int64) error {
+	return s.ml.ClearContext(ctx, uid)
 }

@@ -35,6 +35,10 @@ var store = ContextStore{
 	History: make(map[string][]OllamaMessage),
 }
 
+const chatSystemPrompt = `You are a concise and strictly financial AI assistant. Your purpose is to help the user manage their personal finances.
+Your answers must be brief, limited to one or two sentences, and always focused on financial topics (expenses, savings, budget, etc.).
+Do NOT ask for context. Do NOT go off-topic. Do NOT use conversational fillers like "Hello" or "How can I help you?".`
+
 func main() {
 	r := gin.Default()
 
@@ -63,6 +67,7 @@ You must return ONLY one word: the category name from the list below that best f
 Allowed categories: [%s].
 Do NOT write "The category is...", do NOT add punctuation. Return ONLY the category word.
 If you cannot decide, return "Misc".`, categoriesStr)
+
 	userPrompt := fmt.Sprintf("Transaction: %s, Amount: %d, Type: %s",
 		req.Transaction.Description, req.Transaction.Amount, req.Transaction.Type)
 
@@ -70,12 +75,15 @@ If you cannot decide, return "Misc".`, categoriesStr)
 		{Role: "system", Content: systemPrompt},
 		{Role: "user", Content: userPrompt},
 	}
+
 	category, err := callOllama(messages, 0.0)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "AI Engine error", "details": err.Error()})
 		return
 	}
+
 	cleanCategory := cleanResponse(category)
+
 	if !isValidCategory(cleanCategory) {
 		log.Printf("Model hallucinated: %s. Fallback to Misc.", cleanCategory)
 		cleanCategory = "Misc"
@@ -92,24 +100,31 @@ func handleChat(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	store.Lock()
 	if _, exists := store.History[req.UserID]; !exists {
-		store.History[req.UserID] = []OllamaMessage{}
+		store.History[req.UserID] = []OllamaMessage{{Role: "system", Content: chatSystemPrompt}}
 	}
+
 	store.History[req.UserID] = append(store.History[req.UserID], OllamaMessage{Role: "user", Content: req.Prompt})
+
 	if len(store.History[req.UserID]) > ContextLimit {
-		store.History[req.UserID] = store.History[req.UserID][len(store.History[req.UserID])-ContextLimit:]
+		systemMsg := store.History[req.UserID][0]
+		store.History[req.UserID] = store.History[req.UserID][len(store.History[req.UserID])-ContextLimit+1:]
+		store.History[req.UserID] = append([]OllamaMessage{systemMsg}, store.History[req.UserID]...)
 	}
 
 	currentContext := make([]OllamaMessage, len(store.History[req.UserID]))
 	copy(currentContext, store.History[req.UserID])
 	store.Unlock()
-	responseContent, err := callOllama(currentContext, 0.7)
+
+	responseContent, err := callOllama(currentContext, 0.5)
 	if err != nil {
 		rollbackLastMessage(req.UserID)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "AI Engine error", "details": err.Error()})
 		return
 	}
+
 	store.Lock()
 	store.History[req.UserID] = append(store.History[req.UserID], OllamaMessage{Role: "assistant", Content: responseContent})
 	store.Unlock()
@@ -125,6 +140,7 @@ func handleAdvice(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
 	systemPrompt := `You are a world-class financial advisor. You will receive a JSON string containing a list of user's financial transactions. 
 Each transaction has: 'id', 'date' (timestamp), 'kategoria' (category), 'type' (Пополнение/Доход or Списание/Покупка), 'amount' (in RUB), and 'description'.
 Your task is to analyze this data and provide constructive, actionable financial advice. 
@@ -139,11 +155,20 @@ If the transaction list is empty, respond with a message about the lack of data 
 		{Role: "system", Content: systemPrompt},
 		{Role: "user", Content: userPrompt},
 	}
+
 	adviceContent, err := callOllama(messages, 0.8)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "AI Engine error", "details": err.Error()})
 		return
 	}
+
+	store.Lock()
+	if _, exists := store.History[req.UserID]; !exists {
+		store.History[req.UserID] = []OllamaMessage{{Role: "system", Content: chatSystemPrompt}}
+	}
+	store.History[req.UserID] = append(store.History[req.UserID], OllamaMessage{Role: "user", Content: "Проведен анализ транзакций для финансового совета."})
+	store.History[req.UserID] = append(store.History[req.UserID], OllamaMessage{Role: "assistant", Content: adviceContent})
+	store.Unlock()
 
 	c.JSON(http.StatusOK, AdviceResponse{
 		Advice: adviceContent,
@@ -162,7 +187,7 @@ func callOllama(messages []OllamaMessage, temp float64) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("failed to marshal Ollama request: %w", err)
 	}
-	client := &http.Client{Timeout: 120 * time.Second}
+	client := &http.Client{Timeout: 120 * time.Second} // Используем увеличенный таймаут
 
 	resp, err := client.Post(OllamaURL, "application/json", bytes.NewBuffer(jsonData))
 	if err != nil {

@@ -164,3 +164,24 @@ func (c *MLClient) GetAdvice(ctx context.Context, uid int64, transactions string
 
 	return result.Advice, nil
 }
+
+func (c *MLClient) ClearContext(ctx context.Context, uid int64) error {
+	url := fmt.Sprintf("%s/api/context/%d", c.baseURL, uid)
+
+	req, err := http.NewRequestWithContext(ctx, "DELETE", url, nil)
+	if err != nil {
+		return apperror.SystemError(err, 5016, "failed to create clear context request")
+	}
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return apperror.SystemError(err, 5017, "failed to call ml clear context service")
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return apperror.SystemError(fmt.Errorf("ml service returned status %d", resp.StatusCode), 5018, "ml clear context service error")
+	}
+
+	return nil
+}
