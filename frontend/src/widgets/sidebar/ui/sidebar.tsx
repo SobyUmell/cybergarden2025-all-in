@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shared/shadcn/ui/sidebar"
 import { useIsMobile } from '@/shared/shadcn/hooks/use-mobile'
 
@@ -32,6 +33,14 @@ const items = [
 
 export function AppSidebar() {
   const isMobile = useIsMobile()
+  const { setOpenMobile } = useSidebar()
+
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false)
+    }
+  }
+
   return (
     <>
       <Sidebar side={isMobile ? "right" : "left"}>
@@ -43,7 +52,7 @@ export function AppSidebar() {
                 {items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton variant={"outline"} asChild>
-                      <Link href={item.url}>
+                      <Link href={item.url} onClick={handleLinkClick}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
