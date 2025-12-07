@@ -150,7 +150,7 @@ func (h *Handler) chat(c *gin.Context) {
 	uid := c.GetInt64("uid")
 
 	var req struct {
-		Prompt string `json:"prompt"`
+		Prompt string `json:"message"`
 	}
 	if err := c.BindJSON(&req); err != nil {
 		_ = c.Error(apperror.BadRequestError(err, 4006, "invalid json body"))

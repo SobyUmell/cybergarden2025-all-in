@@ -156,7 +156,10 @@ func callOllama(messages []OllamaMessage, temp float64) (string, error) {
 		Options:  map[string]interface{}{"temperature": temp},
 	}
 
-	jsonData, _ := json.Marshal(reqData)
+	jsonData, err := json.Marshal(reqData)
+	if err != nil {
+		return "", fmt.Errorf("failed to marshal Ollama request: %w", err)
+	}
 	client := &http.Client{Timeout: 30 * time.Second}
 
 	resp, err := client.Post(OllamaURL, "application/json", bytes.NewBuffer(jsonData))
