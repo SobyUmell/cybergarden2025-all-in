@@ -33,4 +33,11 @@ export const transactionApi = {
       body: JSON.stringify(data),
     });
   },
+
+  chat: async (message: string): Promise<{ response: string }> => {
+    return queryTma<{ response: string }>(`${API_BASE}/webapp/chat`, {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    });
+  },
 };

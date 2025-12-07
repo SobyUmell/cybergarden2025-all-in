@@ -5,20 +5,13 @@ import { useMutation } from "@tanstack/react-query"
 import { Send, Bot, User } from "lucide-react"
 import { Button } from "@/shared/shadcn/ui/button"
 import { Input } from "@/shared/shadcn/ui/input"
-import { queryTma } from "@/shared/api/api-client"
+import { transactionApi } from "@/features/transaction/api"
 
 type Message = {
   id: string
   role: "user" | "assistant"
   content: string
   timestamp: Date
-}
-
-const sendMessage = async (message: string): Promise<{ response: string }> => {
-  return queryTma("/api/assistant/chat", {
-    method: "POST",
-    body: JSON.stringify({ message }),
-  })
 }
 
 export const AssistantChat = () => {
@@ -35,7 +28,7 @@ export const AssistantChat = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   const mutation = useMutation({
-    mutationFn: sendMessage,
+    mutationFn: transactionApi.chat,
     onSuccess: (data) => {
       setMessages((prev) => [
         ...prev,

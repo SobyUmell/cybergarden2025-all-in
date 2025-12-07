@@ -57,20 +57,6 @@ export const CreateTransactionForm = () => {
 
           <FormField
             control={form.control}
-            name="kategoria"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Категория</FormLabel>
-                <FormControl>
-                  <Input placeholder="Например: Продукты" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
             name="amount"
             render={({ field }) => (
               <FormItem>
