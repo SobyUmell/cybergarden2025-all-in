@@ -27,7 +27,6 @@ func New(log *logrus.Logger, host string, port int) *MLClient {
 	}
 }
 
-// Структуры для запросов к ML сервису (дублируют те, что в ML сервисе)
 type categorizeReq struct {
 	UserID      string              `json:"user_id"`
 	Transaction model.TransactionMl `json:"transaction"`
@@ -44,6 +43,15 @@ type chatReq struct {
 
 type chatResp struct {
 	Response string `json:"response"`
+}
+
+type adviceReq struct {
+	UserID       string `json:"user_id"`
+	Transactions string `json:"transactions"`
+}
+
+type adviceResp struct {
+	Advice string `json:"advice"`
 }
 
 func (c *MLClient) CategorizeTransaction(ctx context.Context, uid int64, t model.TransactionMl) (string, error) {
@@ -118,4 +126,41 @@ func (c *MLClient) Chat(ctx context.Context, uid int64, prompt string) (string, 
 	}
 
 	return result.Response, nil
+}
+
+func (c *MLClient) GetAdvice(ctx context.Context, uid int64, transactions string) (string, error) {
+	url := c.baseURL + "/api/advice"
+
+	body := adviceReq{
+		UserID:       fmt.Sprintf("%d", uid),
+		Transactions: transactions,
+	}
+
+	jsonBody, err := json.Marshal(body)
+	if err != nil {
+		return "", apperror.SystemError(err, 5011, "failed to marshal advice request")
+	}
+
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(jsonBody))
+	if err != nil {
+		return "", apperror.SystemError(err, 5012, "failed to create advice request")
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	resp, err := c.client.Do(req)
+	if err != nil {
+		return "", apperror.SystemError(err, 5013, "failed to call ml advice service")
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		return "", apperror.SystemError(fmt.Errorf("ml advice service returned status %d", resp.StatusCode), 5014, "ml advice service error")
+	}
+
+	var result adviceResp
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", apperror.SystemError(err, 5015, "failed to decode ml advice response")
+	}
+
+	return result.Advice, nil
 }

@@ -15,7 +15,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Конфигурация
 var (
 	OllamaURL    = getEnv("OLLAMA_URL", "http://ollama:11434/api/chat")
 	ModelName    = getEnv("MODEL_NAME", "gemma3")
@@ -23,12 +22,10 @@ var (
 	Port         = getEnv("PORT", "8082")
 )
 
-// Разрешенные категории
 var AllowedCategories = []string{
 	"Misc", "Food", "Salary", "Shopping", "Electronics", "Restaurants", "Transport",
 }
 
-// Хранилище контекста для чата
 type ContextStore struct {
 	sync.RWMutex
 	History map[string][]OllamaMessage
@@ -44,6 +41,8 @@ func main() {
 	r.POST("/api/categorize", handleCategorize)
 
 	r.POST("/api/chat", handleChat)
+
+	r.POST("/api/advice", handleAdvice)
 
 	r.DELETE("/api/context/:user_id", handleClearContext)
 
@@ -117,6 +116,37 @@ func handleChat(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"response": responseContent,
+	})
+}
+
+func handleAdvice(c *gin.Context) {
+	var req AdviceRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	systemPrompt := `You are a world-class financial advisor. You will receive a JSON string containing a list of user's financial transactions. 
+Each transaction has: 'id', 'date' (timestamp), 'kategoria' (category), 'type' (Пополнение/Доход or Списание/Покупка), 'amount' (in RUB), and 'description'.
+Your task is to analyze this data and provide constructive, actionable financial advice. 
+Focus on identifying spending patterns, suggesting areas for cost reduction, and offering tips on increasing savings or managing debt.
+The response must be in Russian and should be formatted as a polite, friendly, and professional text.
+Do NOT include the raw JSON data in your final response. Summarize the insights.
+If the transaction list is empty, respond with a message about the lack of data and a suggestion to start tracking expenses.
+`
+	userPrompt := fmt.Sprintf("Analyze the following JSON list of transactions and provide financial advice:\n\n%s", req.Transactions)
+
+	messages := []OllamaMessage{
+		{Role: "system", Content: systemPrompt},
+		{Role: "user", Content: userPrompt},
+	}
+	adviceContent, err := callOllama(messages, 0.8)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "AI Engine error", "details": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, AdviceResponse{
+		Advice: adviceContent,
 	})
 }
 

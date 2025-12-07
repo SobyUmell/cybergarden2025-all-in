@@ -2,6 +2,7 @@ package httpservice
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	model "manager/internal/models"
 
@@ -12,6 +13,7 @@ import (
 type MLRepository interface {
 	CategorizeTransaction(ctx context.Context, uid int64, t model.TransactionMl) (string, error)
 	Chat(ctx context.Context, uid int64, prompt string) (string, error)
+	GetAdvice(ctx context.Context, uid int64, transactions string) (string, error)
 }
 
 type BotRepository interface {
@@ -84,4 +86,23 @@ func (s *ManagerService) GetHistory(ctx context.Context, uid int64) ([]model.Tra
 
 func (s *ManagerService) Chat(ctx context.Context, uid int64, prompt string) (string, error) {
 	return s.ml.Chat(ctx, uid, prompt)
+}
+
+func (s *ManagerService) GetFinancialAdvice(ctx context.Context, uid int64) (string, error) {
+	transactions, err := s.db.RequestUserTransactions(ctx, uid)
+	if err != nil {
+		return "error getting transactions", err
+	}
+	transactionsJSON, err := json.Marshal(transactions)
+	if err != nil {
+		logger.LogOnError(err, "Failed to marshal transactions for advice")
+		return "Error marshaling transactions", err
+	}
+	advice, err := s.ml.GetAdvice(ctx, uid, string(transactionsJSON))
+	if err != nil {
+		logger.LogOnError(err, "Failed to get financial advice from ML service")
+		return "Failed to get financial advice", err
+	}
+
+	return advice, nil
 }

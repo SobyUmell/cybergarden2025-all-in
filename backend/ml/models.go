@@ -19,13 +19,18 @@ type ChatRequest struct {
 	Prompt string `json:"prompt" binding:"required"`
 }
 
-// --- Исходящие данные ---
+type AdviceRequest struct {
+	UserID       string `json:"user_id" binding:"required"`
+	Transactions string `json:"transactions" binding:"required"`
+}
 
 type CategorizeResponse struct {
 	Kategoria string `json:"kategoria"`
 }
 
-// --- Ollama API ---
+type AdviceResponse struct {
+	Advice string `json:"advice"`
+}
 
 type OllamaMessage struct {
 	Role    string `json:"role"`

@@ -19,6 +19,7 @@ type ServiceAPI interface {
 	EditTransaction(ctx context.Context, uid int64, t model.Transaction) error
 	GetHistory(ctx context.Context, uid int64) ([]model.Transaction, error)
 	Chat(ctx context.Context, uid int64, prompt string) (string, error)
+	GetFinancialAdvice(ctx context.Context, uid int64) (string, error)
 }
 
 type Handler struct {
@@ -42,6 +43,7 @@ func (h *Handler) RouterRegister(r *gin.Engine) {
 		api.POST("/deletet", h.deleteTransaction)
 		api.POST("/updatet", h.updateTransaction)
 		api.POST("/chat", h.chat)
+		api.GET("/advice", h.requestAdvice)
 	}
 }
 
@@ -164,4 +166,16 @@ func (h *Handler) chat(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"response": resp})
+}
+
+func (h *Handler) requestAdvice(c *gin.Context) {
+	uid := c.GetInt64("uid")
+
+	advice, err := h.service.GetFinancialAdvice(c.Request.Context(), uid)
+	if err != nil {
+		_ = c.Error(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"advice": advice})
 }
