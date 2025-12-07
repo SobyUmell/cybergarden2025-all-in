@@ -72,7 +72,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
-  
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   ollama-init: 
     image: ollama/ollama:latest
