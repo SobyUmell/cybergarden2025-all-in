@@ -76,9 +76,8 @@ services:
       resources:
         reservations:
           devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+            - capabilities: [gpu]
+    runtime: nvidia
 
   ollama-init: 
     image: ollama/ollama:latest
@@ -92,6 +91,7 @@ services:
     depends_on:
       ollama:
         condition: service_healthy
+    runtime: nvidia
 
   ml-service:
     build:
