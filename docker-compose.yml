@@ -2,7 +2,7 @@ services:
 
   frontend:
     build:
-      context: ./backend/frontend
+      context: ./frontend
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
