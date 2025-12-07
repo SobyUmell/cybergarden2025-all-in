@@ -78,7 +78,7 @@ services:
 
   ml-service:
     build:
-      context: ./ml
+      context: ./backend/ml
       dockerfile: Dockerfile
     restart: unless-stopped
     environment:
