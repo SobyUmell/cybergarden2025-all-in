@@ -13,12 +13,12 @@ export const BalanceTrendChart = () => {
     if (!transactionData?.data) return []
 
     const sortedTransactions = [...transactionData.data].sort((a, b) => a.date - b.date)
-    
+
     const monthlyBalances = new Map<string, { balance: number; sortKey: number }>()
     let runningBalance = 0
 
     sortedTransactions.forEach((transaction) => {
-      if (transaction.type === "Пополнение") {
+      if (transaction.type === "Пополнение/Доход") {
         runningBalance += transaction.amount
       } else if (transaction.type === "Списание/Покупка") {
         runningBalance -= transaction.amount

@@ -20,8 +20,8 @@ export const IncomeExpenseChart = () => {
       const monthLabel = `${MONTH_NAMES[date.getMonth()]} ${date.getFullYear()}`
 
       const current = monthlyTotals.get(monthKey) || { income: 0, expense: 0 }
-      
-      if (transaction.type === "Пополнение") {
+
+      if (transaction.type === "Пополнение/Доход") {
         current.income += transaction.amount
       } else if (transaction.type === "Списание/Покупка") {
         current.expense += transaction.amount
